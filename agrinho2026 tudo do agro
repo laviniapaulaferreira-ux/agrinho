@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrinho 2026 - Irrigação Inteligente</title>
+    <style>
+        /* CSS: Estilização da Interface */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        h2 {
+            color: #2e7d32;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #2e7d32;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #1b5e20;
+        }
+
+        .resultado {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+
+        .alerta-irrigar {
+            background-color: #ffe0b2;
+            color: #e65100;
+            border: 1px solid #ffb74d;
+        }
+
+        .alerta-economizar {
+            background-color: #c8e6c9;
+            color: #1b5e20;
+            border: 1px solid #81c784;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>AgroTech - Controle de Irrigação</h2>
+    
+    <div class="form-group">
+        <label for="umidade">Umidade Atual do Solo: <span id="valor-umidade">50</span>%</label>
+        <input type="range" id="umidade" min="0" max="100" value="50" oninput="atualizarLabel(this.value)">
+    </div>
+
+    <div class="form-group">
+        <label for="clima">Previsão do Tempo para Hoje:</label>
+        <select id="clima">
+            <option value="sol">Ensolarado / Seco</option>
+            <option value="nublado">Nublado</option>
+            <option value="chuva">Chuva Forte Prevista</option>
+        </select>
+    </div>
+
+    <button onclick="analisarSolo()">Analisar e Processar</button>
+
+    <div id="resultado" class="resultado"></div>
+</div>
+
+<script>
+    // JavaScript: Lógica de Programação do Sistema
+
+    // Atualiza o texto do slider de umidade em tempo real
+    function atualizarLabel(valor) {
+        document.getElementById('valor-umidade').innerText = valor;
+    }
+
+    // Toma a decisão baseada nas variáveis do campo
+    function analisarSolo() {
+        const umidade = parseInt(document.getElementById('umidade').value);
+        const clima = document.getElementById('clima').value;
+        const painelResultado = document.getElementById('resultado');
+        
+        painelResultado.style.display = "block";
+
+        // Regra de Negócio Sustentável
+        if (clima === "chuva") {
+            painelResultado.className = "resultado alerta-economizar";
+            painelResultado.innerHTML = "🌧️ Irrigação DESLIGADA.<br>Chuva prevista para as próximas horas. Economize água!";
+        } 
+        else if (umidade < 40) {
+            painelResultado.className = "resultado alerta-irrigar";
+            painelResultado.innerHTML = `💧 Irrigação LIGADA.<br>Solo seco (${umidade}%). Fornecendo água necessária para a cultura.`;
+        } 
+        else {
+            painelResultado.className = "resultado alerta-economizar";
+            painelResultado.innerHTML = `✅ Irrigação DESLIGADA.<br>O solo está com boa umidade (${umidade}%) e o clima está favorável.`;
+        }
+    }
+</script>
+
+</body>
+</html>
